@@ -1,19 +1,21 @@
 using System;
 
-
 namespace game
 {
-    class Deck
+    public class Deck
     {
-        static Deck()
+        public int value = 0;
+
+        public Deck()
         {
+
         }
 
-        public int Card()
+        public int Draw()
         {
-            Random rnd = new Random();
-
-            return rnd.Next(1, 14);
+            Random random = new Random();
+            value = random.Next(1,14);
+            return value;
         }
     }
 }

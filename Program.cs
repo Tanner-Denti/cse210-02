@@ -10,7 +10,7 @@ namespace Program
             //Deck deck = new Deck();
             Round round = new Round();
 
-            round.startGame();
+            round.StartGame();
 
         }
     }

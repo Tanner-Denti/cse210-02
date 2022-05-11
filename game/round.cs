@@ -1,87 +1,120 @@
-using System;
-
-
 namespace game
 {
-    class Round
+    public class Round
     {
         Deck deck;
-        int firstCard;
-        int secondCard;
-        string hilo;
-        string play;
+        bool gameStatus;
         int score;
-        
+        int totalScore;
+        int card;
+        int nextCard;
+        string highLow;
+        string continuePlaying;
+
+
         public Round()
         {
-            deck = new Deck();
-            firstCard = 0;
-            secondCard = 0;
-            hilo = "";
-            play = "y";
-            score = 300;
+            this.deck = new Deck();
+            gameStatus = true;
+            score = 0;
+            totalScore = 300;
+            card = 0;
+            nextCard = 0;
+            highLow = " ";
+            continuePlaying = " ";
         }
-        public void startGame()
-        {
-            firstCard = deck.Card();
-            while (play == "y" && score > 0)
-            {
-                
-                secondCard = deck.Card();
 
-                Console.Write($"\nThe card is: {firstCard}");
-                hilo = input();
-                Console.Write($"Next card was: {secondCard}");
-                score = updateScore(firstCard, secondCard, score, hilo);
-                
-                if (score < 0)
-                {   
-                    Console.WriteLine("\n\nYour score is: 0\nBetter luck next time!");
-                    break;
-                }
-                else
+
+        public void StartGame()
+        {
+            while (gameStatus)
+            {
+                GetInputs();
+                DrawNextCard();
+                GetScore();
+                UpdateNextCard();
+                DetermineGameStatus();
+            }
+        }
+
+        public void GetInputs()
+        {
+            if (card == 0)
+            {
+                card = deck.Draw();
+            }
+            Console.WriteLine($"The card is: {card}");
+            Console.Write("Higher or lower? [h/l] ");
+            highLow = Console.ReadLine();
+        }
+
+        public void DrawNextCard()
+        {
+            nextCard = deck.Draw();
+            Console.WriteLine($"Next card was: {nextCard}");
+        }
+
+        public void GetScore()
+        {
+            if (totalScore < 0)
+            {
+                totalScore = 0;
+            }
+            else if (highLow == "h")
+            {
+                if (nextCard > card)
                 {
-                Console.WriteLine($"\nYour score is: {score}");
-                play = playAgain();
+                    totalScore = 100 + totalScore;
+                }
+                else if (nextCard < card)
+                {
+                    totalScore = totalScore - 75;
+                }             
+            }
+            else if (highLow =="l")
+            {
+                if (nextCard < card)
+                {
+                    totalScore = 100 + totalScore;
+                }
+                else if (nextCard > card)
+                {
+                    totalScore = totalScore - 75;
+                }   
+            }
+            Console.WriteLine($"Your score is: {totalScore}");
 
-                firstCard = secondCard;
+        }
+
+        public void UpdateNextCard()
+        {
+            card = nextCard;
+        }
+
+        public void DetermineGameStatus()
+        {
+
+            if (totalScore != 0)
+            {
+                Console.Write("Play again? [y/n] ");
+                continuePlaying = Console.ReadLine();
+                if (continuePlaying == "y")
+                {
+                    gameStatus = true;
+                }
+                else if (continuePlaying == "n")
+                {
+                    gameStatus = false;
                 }
             }
-        }
-        public string input()
-        {
-            Console.Write("\nHigher or lower? [h/1] ");
-            string userAns = Console.ReadLine();
-            return userAns;
-        }
-        public int updateScore(int firstCard, int secondCard, int score, string hilo)
-        {
-            
-             if (hilo == "h" && secondCard > firstCard)
+
+            else
             {
-                score = score + 100;
+                gameStatus = false;
             }
-            else if (hilo == "l" && secondCard < firstCard)
-            {
-                score = score + 100;
-            }
-            else if (hilo == "h" && secondCard <= firstCard)
-            {
-                score = score - 75;
-            }
-            else if (hilo == "l" && secondCard >= firstCard)
-            {
-                score = score - 75;
-            }
-            
-            return score;
-        }
-        public string playAgain()
-        {
-            Console.Write("Play again? [y/n] ");
-            string userAns = Console.ReadLine();
-            
-            return userAns;
+
+            Console.WriteLine(" ");
+
         }
     }
 }
