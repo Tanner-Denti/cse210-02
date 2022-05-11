@@ -7,7 +7,7 @@ namespace Program
     {
         static void Main()
         {
-            Deck deck = new Deck();
+            //Deck deck = new Deck();
             Round round = new Round();
 
             round.startGame();

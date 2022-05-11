@@ -13,7 +13,7 @@ namespace game
         {
             Random rnd = new Random();
 
-            return rnd.Next(1, 13);
+            return rnd.Next(1, 14);
         }
     }
 }

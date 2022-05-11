@@ -5,21 +5,28 @@ namespace game
 {
     class Round
     {
+        Deck deck;
+        int firstCard;
+        int secondCard;
+        string hilo;
+        string play;
+        int score;
+        
         public Round()
         {
+            deck = new Deck();
+            firstCard = 0;
+            secondCard = 0;
+            hilo = "";
+            play = "y";
+            score = 300;
         }
         public void startGame()
         {
-            Deck deck = new Deck();
-            int firstCard = 0;
-            int secondCard = 0;
-            string hilo = "";
-            string play = "y";
-            int score = 300;
-            
+            firstCard = deck.Card();
             while (play == "y" && score > 0)
             {
-                firstCard = deck.Card();
+                
                 secondCard = deck.Card();
 
                 Console.Write($"\nThe card is: {firstCard}");
@@ -36,11 +43,10 @@ namespace game
                 {
                 Console.WriteLine($"\nYour score is: {score}");
                 play = playAgain();
+
+                firstCard = secondCard;
                 }
             }
-
-            
-
         }
         public string input()
         {
